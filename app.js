@@ -29,7 +29,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/userDB", { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect("mongodb+srv://admin-dan:D@Ndan99@cluster0.domkd.gcp.mongodb.net/userDB?retryWrites=true&w=majority", { useUnifiedTopology: true, useNewUrlParser: true });
 
 mongoose.set("useCreateIndex", true);
 
@@ -45,7 +45,6 @@ userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 
-// userSchema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
 
 const User = new mongoose.model("User", userSchema);
 
@@ -163,8 +162,6 @@ app.get("/submit", function(req, res) {
 app.post("/submit", function(req, res) {
     const submittedSecret = req.body.secret;
 
-    console.log(req.user);
-
     User.findById(req.user.id, function(err, foundUser) {
         if (err) {
             console.log(err)
@@ -197,6 +194,11 @@ app.post("/login", function(req, res) {
 
 });
 
-app.listen(3000, function() {
-    console.log("Server started on port 3000")
-})
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+};
+
+app.listen(port, function() {
+    console.log("Server Started Successfully");
+});
