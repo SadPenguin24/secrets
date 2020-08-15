@@ -1,6 +1,7 @@
 //jshint esversion:6
 require('dotenv').config();
 const express = require("express");
+const favicon = require("express-favicon")
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
@@ -16,6 +17,7 @@ const app = express();
 app.use(express.static("public"));
 app.set("view engine", 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 app.use(session({
     secret: "Our little secret.",
